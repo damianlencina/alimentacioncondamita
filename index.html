@@ -5,8 +5,10 @@
 <style>
 /* Layout: app de cocina en pareja. Pestañas arriba; Hoy = comidas | plato + agua + mensajitos; Semana = planner 7 días × comidas; Juego = liga, retos y logros. */
 :root{
-  --bg:#F3F6F0; --surface:#FFFFFF; --surface-2:#E8EDE3; --ink:#1C2820; --ink-2:#56635A; --line:#D3DBCD;
-  --accent:#2E6A3E; --accent-ink:#FFFFFF; --accent-soft:#DCEBDD; --warm:#C8741F; --warm-soft:#F6E6D2;
+  --bg:#F5F9F2; --surface:#FFFFFF; --surface-2:#EEF3EA; --ink:#15231A; --ink-2:#56665B; --line:#DDE6D8;
+  --accent:#119A4B; --accent-ink:#FFFFFF; --accent-soft:#DDF5E4; --warm:#F26A21; --warm-soft:#FFEBDD;
+  --tomato:#F0452F; --sun:#FFB81C; --berry:#E23D7A; --sky:#2F7FE8; --grape:#7A4FD6; --leaf:#34B35A;
+  --shadow:0 1px 2px rgba(20,50,30,.05), 0 6px 20px rgba(20,50,30,.07); --hero1:#0E9446; --hero2:#6DB83A;
   --postit:#FFF2A8; --postit-ink:#3B3413;
   --ok:#2F7D4A; --mid:#B67A12; --low:#B2463A;
   --g-verdura:#3C8A4C; --g-fruta:#C44C69; --g-legumbre:#9E6A22; --g-integral:#A88A33; --g-lacteo:#4677AE;
@@ -17,11 +19,13 @@
   --f-display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
   --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-hand:"Caveat", "Segoe Print", "Bradley Hand", cursive;
-  --r:12px;
+  --r:16px;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#111713; --surface:#18201B; --surface-2:#222C25; --ink:#E4EBE3; --ink-2:#9BA99E; --line:#2E3A31;
-  --accent:#7CC08C; --accent-ink:#0D1A11; --accent-soft:#223A28; --warm:#E6A05A; --warm-soft:#3A2B1C;
+  --bg:#0E1511; --surface:#17211A; --surface-2:#202C23; --ink:#E8F0E6; --ink-2:#9CAEA0; --line:#2B3A2F;
+  --accent:#3FD67E; --accent-ink:#06170C; --accent-soft:#173A24; --warm:#FF8A45; --warm-soft:#3A2415;
+  --tomato:#FF6A55; --sun:#FFC847; --berry:#FF6FA3; --sky:#62A4FF; --grape:#A98AF5; --leaf:#5FD37F;
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 6px 20px rgba(0,0,0,.25); --hero1:#0F6B35; --hero2:#3F7A22;
   --postit:#4A4219; --postit-ink:#FBF1C0;
   --ok:#6CC58A; --mid:#E0B055; --low:#E97B6C;
   --g-verdura:#6CC07B; --g-fruta:#EB7F99; --g-legumbre:#D29A4E; --g-integral:#D4B866; --g-lacteo:#7EA9DC;
@@ -30,8 +34,10 @@
   --rb-rojo:#F06B6B; --rb-naranja:#F3A052; --rb-amarillo:#F0D35A; --rb-verde:#72C77B; --rb-violeta:#B27FD6; --rb-blanco:#D9D3C2;
   color-scheme:dark; } }
 :root[data-theme="dark"]{
-  --bg:#111713; --surface:#18201B; --surface-2:#222C25; --ink:#E4EBE3; --ink-2:#9BA99E; --line:#2E3A31;
-  --accent:#7CC08C; --accent-ink:#0D1A11; --accent-soft:#223A28; --warm:#E6A05A; --warm-soft:#3A2B1C;
+  --bg:#0E1511; --surface:#17211A; --surface-2:#202C23; --ink:#E8F0E6; --ink-2:#9CAEA0; --line:#2B3A2F;
+  --accent:#3FD67E; --accent-ink:#06170C; --accent-soft:#173A24; --warm:#FF8A45; --warm-soft:#3A2415;
+  --tomato:#FF6A55; --sun:#FFC847; --berry:#FF6FA3; --sky:#62A4FF; --grape:#A98AF5; --leaf:#5FD37F;
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 6px 20px rgba(0,0,0,.25); --hero1:#0F6B35; --hero2:#3F7A22;
   --postit:#4A4219; --postit-ink:#FBF1C0;
   --ok:#6CC58A; --mid:#E0B055; --low:#E97B6C;
   --g-verdura:#6CC07B; --g-fruta:#EB7F99; --g-legumbre:#D29A4E; --g-integral:#D4B866; --g-lacteo:#7EA9DC;
@@ -214,6 +220,9 @@ textarea.inp{resize:vertical;min-height:64px}
 .rcard h3{font-size:17px;font-weight:700;padding-right:28px}
 .rcard .why{font-size:13px;color:var(--accent);font-weight:600}
 .rcard .foot{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+.versions{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left}
+@media (max-width:420px){.versions{grid-template-columns:1fr}}
+.ver{border:1px solid var(--line);border-left:4px solid var(--who);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;background:var(--surface)}
 .fav{position:absolute;top:10px;right:10px;border:0;background:none;font-size:20px;line-height:1;color:var(--line);padding:2px}
 .fav[aria-pressed="true"]{color:var(--c-rosa)}
 .min{font-size:12px;color:var(--ink-2);font-weight:600}
@@ -313,7 +322,7 @@ textarea.inp{resize:vertical;min-height:64px}
 /* sheet */
 .sheet-bg{position:fixed;inset:0;background:rgba(10,20,14,.45);z-index:50;display:flex;justify-content:center;align-items:flex-end}
 @media (min-width:700px){.sheet-bg{align-items:center}}
-.sheet{background:var(--surface);color:var(--ink);width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet{overflow-x:hidden;background:var(--surface);color:var(--ink);width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
 @media (min-width:700px){.sheet{border-radius:18px}}
 .sheet h2{font-size:24px;font-weight:800;margin-bottom:4px;padding-right:30px}
 .sheet ol,.sheet ul{padding-left:20px;margin:6px 0 0}
@@ -327,11 +336,66 @@ textarea.inp{resize:vertical;min-height:64px}
 .empty{color:var(--ink-2);font-size:13px;margin:6px 0 0}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 @media (prefers-reduced-motion:no-preference){.entry,.rcard{animation:in .18s ease-out}@keyframes in{from{opacity:.4;transform:translateY(3px)}}}
+
+/* ===== Capa visual: colores vivos, dibujitos y tarjetas con ganas de comer ===== */
+.card,.meal,.rcard,.metric,.reto,.stat,.logro,.gap,.board-wrap{box-shadow:var(--shadow);border-color:transparent}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.btn{border-radius:999px;padding:10px 18px;box-shadow:0 2px 0 color-mix(in srgb,var(--accent) 60%,#000 40%)}
+.btn.ghost{box-shadow:none;background:var(--surface)}
+.btn.warm{box-shadow:0 2px 0 color-mix(in srgb,var(--warm) 60%,#000 40%)}
+.btn.fun{background:var(--berry);box-shadow:0 2px 0 color-mix(in srgb,var(--berry) 60%,#000 40%)}
+.btn:active{transform:translateY(1px);box-shadow:none}
+.brand .logo{width:34px;height:34px;flex:0 0 34px}
+.brand h1 span{color:var(--tomato)}
+.ico{display:inline-block;width:28px;height:28px;flex:0 0 28px;vertical-align:middle}
+.ico svg,.logo svg{width:100%;height:100%;display:block}
+.meal-h h3{display:flex;align-items:center;gap:8px}
+.hero-day{position:relative;overflow:hidden;border-radius:22px;padding:18px 18px 16px;margin-bottom:14px;color:#fff;
+  background:linear-gradient(125deg,var(--hero1) 0%,var(--hero2) 100%)}
+.hero-day h2{font-size:30px;font-weight:800;letter-spacing:-.02em;color:#fff}
+.hero-day .eyebrow{color:#fff;opacity:.9}
+.hero-day .fact{color:#fff;opacity:.95;max-width:46ch}
+.hero-day .fact b{color:#fff}
+.hero-day .deco{position:absolute;right:6px;top:8px;display:flex;gap:2px;opacity:.95;pointer-events:none}
+.hero-day .deco .ico{width:54px;height:54px;flex-basis:54px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.15))}
+.hero-day .deco .ico:nth-child(odd){transform:rotate(-12deg) translateY(6px)}
+.hero-day .deco .ico:nth-child(even){transform:rotate(10deg)}
+@media (max-width:560px){.hero-day .deco .ico{width:34px;height:34px;flex-basis:34px}.hero-day h2{font-size:26px}}
+.hero-day .btn.ghost{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.45)}
+.hero-day .actions{position:relative;z-index:1;margin-top:10px}
+.rcard{padding:0;overflow:hidden;gap:0}
+.rcard .art{height:86px;display:flex;align-items:center;justify-content:center;gap:4px;position:relative;background:var(--art,var(--accent-soft))}
+.rcard .art .ico{width:50px;height:50px;flex-basis:50px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.12))}
+.rcard .art .ico:nth-child(2){transform:translateY(-6px) scale(1.15)}
+.rcard .art .min{position:absolute;left:10px;bottom:8px;background:var(--surface);color:var(--ink);border-radius:999px;padding:1px 9px}
+.rcard .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.rcard .fav{top:8px;right:8px;background:var(--surface);border-radius:50%;width:32px;height:32px;display:grid;place-items:center;font-size:17px;box-shadow:var(--shadow)}
+.rcard:hover{transform:translateY(-2px);transition:transform .15s}
+.bigcta{position:relative;overflow:hidden;min-height:112px;padding-right:84px;box-shadow:var(--shadow);border:0!important;color:#fff!important}
+.bigcta span{color:#fff!important;opacity:.92}
+.bigcta .ico{position:absolute;right:12px;top:50%;transform:translateY(-50%) rotate(-8deg);width:64px;height:64px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18))}
+.bigcta.ruleta{background:linear-gradient(135deg,var(--berry),var(--grape))!important}
+.bigcta.semana{background:linear-gradient(135deg,var(--warm),var(--sun))!important}
+.bigcta.antojo{background:linear-gradient(135deg,var(--accent),var(--sky))!important}
+.sheet-art{margin:-20px -18px 14px;height:110px;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--art)}
+.sheet-art .ico{width:62px;height:62px;flex-basis:62px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.15))}
+.sheet-art .ico:nth-child(2){transform:translateY(-8px) scale(1.12)}
+.empty-art{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:18px 10px;color:var(--ink-2)}
+.empty-art .row .ico{width:40px;height:40px;flex-basis:40px}
+.glasses i.on{background:var(--sky)}
+.who{box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.liga .pts{font-size:48px}
+.tug{height:18px;border-radius:9px}
+.logro.on .medal{background:conic-gradient(from 200deg,var(--warm),var(--sun),var(--warm));box-shadow:0 3px 10px color-mix(in srgb,var(--sun) 50%,transparent)}
+.section-h h2{display:flex;align-items:center;gap:8px}
+.gt::before{width:9px;height:9px}
+.addbtn{border-radius:12px}
+.entry{border-radius:12px}
 </style>
 
 <div class="top">
   <div class="top-row">
-    <div class="brand"><h1>Qué <span>Comemos</span></h1><span class="sync local" id="sync" title="Conectando"></span><div class="couple" id="couple"></div></div>
+    <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 48 48"><ellipse cx="17" cy="18" rx="7" ry="4" fill="#34B35A" transform="rotate(-25 17 18)"/><ellipse cx="30" cy="17" rx="7" ry="4" fill="#2E9B45" transform="rotate(20 30 17)"/><circle cx="24" cy="19" r="4.5" fill="#F0452F"/><circle cx="34" cy="21" r="3" fill="#FFB81C"/><path d="M5 22h38c-1 11-9 18-19 18S6 33 5 22z" fill="#2F7FE8"/><path d="M10 28h28" stroke="#9CC4FA" stroke-width="2"/></svg></span><h1>Qué <span>Comemos</span></h1><span class="sync local" id="sync" title="Conectando"></span><div class="couple" id="couple"></div></div>
     <button class="iconbtn" data-a="settings" type="button">Ajustes</button>
   </div>
   <nav class="tabs" role="tablist" id="tabs">
@@ -576,6 +640,53 @@ const RECIPES = [
   i:['2 patas muslo deshuesadas en cubos','1 taza de arroz (integral si hay)','1 cebolla','1 morrón','1 zanahoria','1/2 taza de arvejas','Pimentón, azafrán o cúrcuma'],
   s:['Dorá el pollo, sumá cebolla, morrón y zanahoria.','Agregá el arroz, especias y 2 1/2 tazas de agua caliente (3 si es integral).','Cociná tapado a fuego bajo 18 minutos (35 si es integral). Sumá arvejas al final.']},
 ];
+/* Dibujitos de comida (SVG propios, viewBox 48×48) */
+const HL='<ellipse cx="17" cy="20" rx="4" ry="2.6" fill="#fff" opacity=".45" transform="rotate(-30 17 20)"/>';
+const ICONS = {
+  tomato:`<circle cx="24" cy="27" r="16" fill="#F0452F"/>${HL}<path d="M24 11l3 5 6-1-4 4 3 5-8-3-8 3 3-5-4-4 6 1z" fill="#2FA84F"/>`,
+  avocado:`<path d="M24 4c8 0 12 11 14 20 2 10-5 20-14 20S8 34 10 24C12 15 16 4 24 4z" fill="#3E7D2A"/><path d="M24 8c6 0 9 10 10.5 17C36 33 31 40 24 40s-12-7-10.5-15C15 18 18 8 24 8z" fill="#CDE68A"/><circle cx="24" cy="29" r="7" fill="#8A5A2B"/><circle cx="22" cy="27" r="2" fill="#B98150"/>`,
+  carrot:`<path d="M31 15L11 41c-1 2 1 3 2 2l24-21z" fill="#F57A1F"/><path d="M18 33l4 2M22 28l4 2M26 23l3 2" stroke="#C4570F" stroke-width="1.6" stroke-linecap="round"/><path d="M31 15c-2-5 0-9 3-11 0 4 1 6 3 7 3-2 6-2 8-1-3 3-6 5-10 6-1 2-3 0-4-1z" fill="#2FA84F"/>`,
+  egg:`<path d="M9 26c0-10 8-16 16-15 9 1 15 7 13 15-1 8-7 14-16 13C14 38 9 33 9 26z" fill="#FFFFFF" stroke="#E8E1CF" stroke-width="1.5"/><circle cx="24" cy="25" r="7.5" fill="#FFB81C"/><circle cx="22" cy="23" r="2" fill="#FFE08A"/>`,
+  fish:`<path d="M5 24c6-10 19-13 29-6l9-7v26l-9-7C24 37 11 34 5 24z" fill="#2F7FE8"/><path d="M20 16c3 5 3 11 0 16" stroke="#9CC4FA" stroke-width="2" fill="none"/><circle cx="13" cy="22" r="2.2" fill="#fff"/><circle cx="13" cy="22" r="1" fill="#15231A"/>`,
+  lemon:`<ellipse cx="24" cy="25" rx="17" ry="12.5" fill="#FFD23F"/><path d="M6 25c-2-1-2-3 0-4M42 25c2-1 2-3 0-4" stroke="#F2B705" stroke-width="3" stroke-linecap="round"/>${HL}<path d="M26 12c2-4 6-5 8-4-2 3-5 4-8 4z" fill="#2FA84F"/>`,
+  broccoli:`<rect x="20" y="26" width="8" height="16" rx="3" fill="#8BC34A"/><circle cx="15" cy="21" r="8" fill="#2E9B45"/><circle cx="33" cy="21" r="8" fill="#2E9B45"/><circle cx="24" cy="15" r="9" fill="#38B052"/><circle cx="24" cy="24" r="7" fill="#2E9B45"/>`,
+  pot:`<ellipse cx="24" cy="21" rx="18" ry="5" fill="#9E6A22"/><circle cx="17" cy="20" r="2.2" fill="#C98B3C"/><circle cx="23" cy="22" r="2.2" fill="#E0B25C"/><circle cx="29" cy="19.5" r="2.2" fill="#C98B3C"/><circle cx="33" cy="22" r="2" fill="#E0B25C"/><path d="M6 22h36c0 11-8 18-18 18S6 33 6 22z" fill="#F26A21"/><path d="M11 29h26" stroke="#FFB27E" stroke-width="2"/><path d="M16 11c-2-3 2-4 0-7M24 10c-2-3 2-4 0-7M32 11c-2-3 2-4 0-7" stroke="#B9C4BC" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  bread:`<path d="M7 20c0-7 8-11 17-11s17 4 17 11c0 3-2 5-4 5v14H11V25c-2 0-4-2-4-5z" fill="#D98F3A"/><path d="M11 20c0-5 6-8 13-8s13 3 13 8c0 2-1 3-3 3v13H14V23c-2 0-3-1-3-3z" fill="#F6CF86"/>`,
+  mate:`<path d="M27 16L37 3" stroke="#C9D0D6" stroke-width="3" stroke-linecap="round"/><path d="M14 20c0-4 4-6 10-6s10 2 10 6c3 4 4 9 2 14-2 6-7 8-12 8s-10-2-12-8c-2-5-1-10 2-14z" fill="#7A4A26"/><rect x="13" y="17" width="22" height="4.5" rx="2" fill="#E0B43A"/><ellipse cx="24" cy="16.5" rx="9" ry="3" fill="#6BAA3A"/><path d="M17 30c2 5 5 7 8 7" stroke="#9C6A3F" stroke-width="2" fill="none"/>`,
+  cup:`<path d="M9 18h26v12c0 7-6 11-13 11S9 37 9 30z" fill="#E23D7A"/><path d="M35 21c5 0 6 8 0 9" stroke="#E23D7A" stroke-width="3.5" fill="none"/><ellipse cx="22" cy="18" rx="13" ry="3" fill="#7A4A26"/><path d="M17 12c-2-3 2-4 0-7M26 12c-2-3 2-4 0-7" stroke="#B9C4BC" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  bowl:`<ellipse cx="17" cy="18" rx="7" ry="4" fill="#34B35A" transform="rotate(-25 17 18)"/><ellipse cx="30" cy="17" rx="7" ry="4" fill="#2E9B45" transform="rotate(20 30 17)"/><circle cx="24" cy="19" r="4.5" fill="#F0452F"/><circle cx="34" cy="21" r="3" fill="#FFB81C"/><path d="M5 22h38c-1 11-9 18-19 18S6 33 5 22z" fill="#2F7FE8"/><path d="M10 28h28" stroke="#9CC4FA" stroke-width="2"/>`,
+  moon:`<circle cx="24" cy="28" r="15" fill="#fff" stroke="#DDE6D8" stroke-width="2"/><circle cx="24" cy="28" r="10" fill="#EEF3EA"/><path d="M32 4a9 9 0 1 0 9 12 7 7 0 1 1-9-12z" fill="#FFB81C"/><circle cx="13" cy="8" r="1.6" fill="#FFB81C"/><circle cx="8" cy="15" r="1.1" fill="#FFB81C"/>`,
+  apple:`<path d="M24 15c-4-3-15-3-15 10 0 10 7 17 11 17 2 0 3-1 4-1s2 1 4 1c4 0 11-7 11-17 0-13-11-13-15-10z" fill="#E7383A"/>${HL}<path d="M24 15c0-4 1-7 3-9" stroke="#6B4423" stroke-width="2.5" stroke-linecap="round"/><path d="M26 10c3-4 8-4 10-3-2 3-6 4-10 3z" fill="#2FA84F"/>`,
+  drumstick:`<path d="M30 8c8 0 12 7 9 14-2 6-9 8-14 7l-7 8c1 3-2 5-4 4-2 2-5 0-4-2-2-1-1-5 2-4l8-7c-1-6 1-20 10-20z" fill="#C8783A"/><path d="M31 12c4 0 6 4 4 8" stroke="#E7A56A" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+  cheese:`<path d="M5 30l30-17 8 8v17H5z" fill="#FFC83D"/><path d="M5 30l30-17 8 8z" fill="#FFE08A"/><circle cx="15" cy="34" r="2.5" fill="#E8A91C"/><circle cx="30" cy="31" r="3" fill="#E8A91C"/><circle cx="37" cy="36" r="1.8" fill="#E8A91C"/>`,
+  wheat:`<path d="M24 44V10" stroke="#C99A2E" stroke-width="2.5"/>${[14,21,28].map(y=>`<ellipse cx="19" cy="${y}" rx="5" ry="3" fill="#E8B84A" transform="rotate(-35 19 ${y})"/><ellipse cx="29" cy="${y}" rx="5" ry="3" fill="#E8B84A" transform="rotate(35 29 ${y})"/>`).join('')}<ellipse cx="24" cy="8" rx="3" ry="5" fill="#E8B84A"/>`,
+  nut:`<path d="M24 6c9 0 14 9 13 19-1 9-6 17-13 17s-12-8-13-17C10 15 15 6 24 6z" fill="#B7743A"/><path d="M24 10c-2 8-2 20 0 28M18 14c-1 6-1 14 1 20M30 14c1 6 1 14-1 20" stroke="#8A5226" stroke-width="1.6" fill="none"/>`,
+  banana:`<path d="M8 14c2 14 12 24 30 22 3 0 4-3 1-4-14 1-21-7-25-19-1-3-6-2-6 1z" fill="#FFD23F"/><path d="M10 16c4 10 11 16 24 17" stroke="#E8B40E" stroke-width="2" fill="none"/><path d="M7 12l3-2 2 3z" fill="#6B4423"/>`,
+  pepper:`<path d="M13 18c-3 8-1 20 5 23 3 2 5-1 6-1s3 3 6 1c6-3 8-15 5-23-2-5-7-4-11-4s-9-1-11 4z" fill="#F0452F"/>${HL}<path d="M24 14c0-4 2-7 5-8" stroke="#2FA84F" stroke-width="3" stroke-linecap="round"/><path d="M18 14c2 2 10 2 12 0" stroke="#2FA84F" stroke-width="3" stroke-linecap="round"/>`,
+  eggplant:`<path d="M30 12c8 5 9 16 3 23-7 8-20 8-23 1-3-6 4-10 8-14 4-5 6-12 12-10z" fill="#7A3FA0"/><path d="M28 10c2-3 6-3 8-1-1 3-3 4-6 4z" fill="#2FA84F"/><path d="M33 8l3-4" stroke="#2FA84F" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="18" cy="30" rx="3" ry="1.8" fill="#fff" opacity=".35" transform="rotate(-40 18 30)"/>`,
+  pumpkin:`<ellipse cx="24" cy="28" rx="18" ry="13" fill="#F57A1F"/><ellipse cx="24" cy="28" rx="7" ry="13" fill="#FF9540"/><path d="M24 15v26" stroke="#D8620F" stroke-width="1.5"/><path d="M24 15c0-4 2-6 4-7" stroke="#6B4423" stroke-width="3" stroke-linecap="round"/>`,
+  strawberry:`<path d="M10 18c4-4 24-4 28 0 2 8-6 22-14 24-8-2-16-16-14-24z" fill="#E7383A"/>${[[17,24],[24,22],[31,24],[20,31],[28,31],[24,37]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="1" ry="1.5" fill="#FFE08A"/>`).join('')}<path d="M12 17l6-6 6 5 6-5 6 6-12 3z" fill="#2FA84F"/>`,
+};
+const icon = k => ICONS[k] ? `<span class="ico" aria-hidden="true"><svg viewBox="0 0 48 48">${ICONS[k]}</svg></span>` : '';
+const ING_ICONS = [
+  [/merluza|atun|caballa|sardina|pescado|salmon/,'fish'],[/pollo|carne|bife|nalga|cuadril|pata muslo|pechuga/,'drumstick'],
+  [/lenteja|garbanzo|poroto|hummus/,'pot'],[/huevo|omelette|tortilla/,'egg'],[/palta/,'avocado'],[/tomate/,'tomato'],
+  [/zanahoria/,'carrot'],[/calabaza|zapallo /,'pumpkin'],[/berenjena/,'eggplant'],[/morron/,'pepper'],
+  [/brocoli|espinaca|acelga|lechuga|rucula|zapallito|hojas/,'broccoli'],[/banana/,'banana'],[/frutilla/,'strawberry'],
+  [/manzana/,'apple'],[/limon/,'lemon'],[/queso|ricota|yogur|muzzarella/,'cheese'],[/avena|integral|arroz|quinoa|harina|polenta|fideo/,'wheat'],
+  [/pan |rapidita|tostada|tapas|disco/,'bread'],[/nuez|nueces|almendra|semilla|mani/,'nut'],[/leche/,'cup'],
+];
+function recipeIcons(r){
+  const t=' '+norm(r.n+' '+(r.i||[]).join(' '))+' ', out=[];
+  for(const [re,k] of ING_ICONS){ if(re.test(t)&&!out.includes(k)) out.push(k); if(out.length===3) break; }
+  if(!out.length) out.push('bowl');
+  return out;
+}
+function recipeArt(r){
+  const g=r.g||[], c = g.includes('pescado')?'--sky': g.includes('legumbre')?'--warm': g.includes('fruta')&&!g.includes('verdura')?'--berry': r.m&&r.m.includes('dm')?'--sun':'--leaf';
+  return `color-mix(in srgb,var(${c}) 24%,var(--surface))`;
+}
+const MEAL_ICON = {desayuno:'cup', almuerzo:'bowl', merienda:'mate', cena:'moon', extras:'apple'};
 RECIPES.push(
  {id:'curry-garbanzos',n:'Curry de garbanzos y calabaza con arroz integral',m:['ac'],t:40,g:['legumbre','verdura','integral','lacteo'],
   i:['1 lata de garbanzos','300 g de calabaza','1 cebolla','1 diente de ajo','1 lata de tomate triturado','1 cda de curry','1/2 taza de leche (o leche de coco)','1 taza de arroz integral','Cilantro o perejil'],
@@ -900,14 +1011,14 @@ function suggest(cat, time, fridge, seed, onlyFav, forP){
   return allRecipes().filter(x=>x.m.includes(cat) && (!time || x.t<=time) && (!onlyFav || fv[x.id]) && fitFor(x,target)).map(x=>{
     let sc=r()*1.5, why=[];
     const fit=fitFor(x,target);
-    if(mixed && fit==='ok' && x.m.includes('ac')){ sc+=0.8; }
+    if(mixed && fit==='ok' && x.m.includes('ac')){ sc+=1.5; }
     if(fit==='alt') why.push(`Con versión veggie para ${vegName()}: ${x.alt.n.toLowerCase()}`);
     const ing=norm((x.i||[]).join(' ')+' '+x.n);
     const hits=fw.filter(w=>ing.includes(w));
     if(hits.length){ sc+=hits.length*3; why.push('Usa lo que tienen: '+hits.join(', ')); }
     if(x.g.includes('pescado')&&need.pescado){ sc+=2.2*need.pescado; why.unshift(`Suma pescado${g.fishWho?' para '+g.fishWho:''}: van ${fmt(g.pescado,0)} de ${g.gFish} esta semana`); }
     const legIn = x.g.includes('legumbre') || (fit==='alt' && x.alt.g.includes('legumbre'));
-    if(legIn&&need.legumbre){ sc+=1.2*need.legumbre; why.unshift(`Suma legumbres${g.legWho?' para '+g.legWho:''}: van ${fmt(g.legumbre,0)} de ${g.gLeg} esta semana`); }
+    if(legIn&&need.legumbre){ sc+=(x.g.includes('legumbre')?1.2:0.5)*need.legumbre; why.unshift(`Suma legumbres${g.legWho?' para '+g.legWho:''}: van ${fmt(g.legumbre,0)} de ${g.gLeg} esta semana`); }
     if(mixed && fit==='ok' && !why.length && x.m.includes('ac')) why.push('Sirve igual para los dos');
     if(fv[x.id]){ sc+=1.2; if(!why.length) why.push('Está entre sus favoritas'); }
     if(liked.has(x.id)){ sc+=0.8; if(!why.length) why.push('La última vez les encantó'); }
@@ -985,6 +1096,10 @@ function greeting(){
   const g = h<6?'¿Insomnio':h<13?'Buen día':h<20?'Buenas tardes':'Buenas noches';
   return g + (who? ', '+who : '') + (h<6?'?':'');
 }
+function heroIcons(date){
+  const sets=[['avocado','tomato','mate'],['carrot','lemon','egg'],['strawberry','banana','broccoli'],['pumpkin','pepper','bread'],['eggplant','apple','cheese'],['fish','lemon','broccoli'],['pot','carrot','mate']];
+  return sets[Math.floor(parse(date).getTime()/864e5)%sets.length];
+}
 function factOfDay(){ const n=Math.floor(parse(TODAY()).getTime()/864e5); return FACTS[n%FACTS.length]; }
 
 function viewDay(){
@@ -998,15 +1113,16 @@ function viewDay(){
   let meals='';
   for(const m of MEALS){
     const list=es.filter(e=>e.meal===m.id);
-    meals+=`<section class="meal"><div class="meal-h"><h3>${m.l}</h3><button type="button" class="linkbtn" data-a="suggest-for" data-v="${m.id}">¿Qué hago? Ver ideas</button></div>
+    meals+=`<section class="meal"><div class="meal-h"><h3>${icon(MEAL_ICON[m.id])}${m.l}</h3><button type="button" class="linkbtn" data-a="suggest-for" data-v="${m.id}">¿Qué hago? Ver ideas</button></div>
       ${list.length?`<ul class="entries">${list.map(e=>entryHtml(e,sel,isFut)).join('')}</ul>`:''}
       ${S.form&&S.form.meal===m.id?formHtml(m,freq[m.id]):`<button type="button" class="addbtn" data-a="open-form" data-v="${m.id}">+ Anotar ${m.l.toLowerCase()}</button>`}
     </section>`;
   }
   const title=(sel===t?'Hoy, ':isFut?'':'')+`${WD[d.getDay()].toLowerCase()} ${d.getDate()} de ${MO[d.getMonth()]}`;
   return `${banners()}
-  <div class="hello"><div><div class="eyebrow">${sel===t?esc(greeting()):isFut?'Planeado':'Día pasado'}</div><h2>${title[0].toUpperCase()+title.slice(1)}</h2><div class="fact">Dato del día: ${factOfDay()}</div></div>
-    <div class="row">${sel!==t?`<button type="button" class="btn ghost" data-a="sel" data-v="${t}">Ir a hoy</button>`:''}<button type="button" class="btn ghost" data-a="copy-yesterday">Copiar el día anterior</button></div></div>
+  <section class="hero-day"><div class="eyebrow label">${sel===t?esc(greeting()):isFut?'Planeado':'Día pasado'}</div><h2>${title[0].toUpperCase()+title.slice(1)}</h2><div class="fact" style="margin-top:4px">Dato del día: ${factOfDay()}</div>
+    <div class="row actions">${sel!==t?`<button type="button" class="btn ghost" data-a="sel" data-v="${t}">Ir a hoy</button>`:''}<button type="button" class="btn ghost" data-a="copy-yesterday">Copiar el día anterior</button></div>
+    <div class="deco">${heroIcons(sel).map(icon).join('')}</div></section>
   <div class="week"><button type="button" class="nav" data-a="shift" data-v="-7" aria-label="Semana anterior">‹</button><div class="days7">${strip}</div><button type="button" class="nav" data-a="shift" data-v="7" aria-label="Semana siguiente">›</button></div>
   <div class="daygrid"><div>${meals}</div><aside class="side">${platoCard(sel)}${waterCard(sel)}${ligaMini()}${loveCard(sel)}</aside></div>`;
 }
@@ -1110,7 +1226,7 @@ function viewWeek(){
     th+=`<th class="${d===t?'today':''}"><div class="dh"><button type="button" class="linkbtn" style="color:var(--ink)" data-a="open-day" data-v="${d}"><span class="small muted">${WD[dd.getDay()].slice(0,3)}</span> <b class="tnum">${dd.getDate()}</b></button>${sc!=null?`<span class="badge ${band(sc)} tnum">${fmt(sc)}</span>`:''}</div></th>`; }
   let rows='';
   for(const m of MEALS){
-    rows+=`<tr><th class="mh" scope="row">${m.id==='extras'?'Extras':m.l}</th>`;
+    rows+=`<tr><th class="mh" scope="row"><span style="display:flex;align-items:center;gap:4px">${icon(MEAL_ICON[m.id])}${m.id==='extras'?'Extras':m.l}</span></th>`;
     for(let i=0;i<7;i++){ const d=addDays(mon,i), es=entriesOf(d).filter(e=>e.meal===m.id);
       rows+=`<td class="${d===t?'today':''}">${es.map(e=>`<button type="button" class="pl${d>t?' fut':''}" style="--who:${whoVar(e.who||'ambos')}" data-a="edit-entry" data-v="${d}|${e.id}">${esc(e.text)}</button>`).join('')}<button type="button" class="plus" data-a="add-at" data-v="${d}|${m.id}" aria-label="Agregar ${m.l} el ${WD[parse(d).getDay()]}">+</button></td>`; }
     rows+='</tr>';
@@ -1145,9 +1261,9 @@ function viewIdeas(){
   const pv=I.planPreview, ss=seasonNow();
   return `${banners()}
   <div class="herorow">
-    <button type="button" class="bigcta ruleta" data-a="wheel"><b>Girar la ruleta</b><span>Cuando ninguno quiere decidir: 8 opciones balanceadas y que decida la suerte.</span></button>
-    <button type="button" class="bigcta semana" data-a="plan-week"><b>Armar la semana</b><span>Almuerzos y cenas para 7 días, con pescado y legumbres incluidos.</span></button>
-    ${sample?`<button type="button" class="bigcta antojo" data-a="focus-ai"><b>Pedile a Claude</b><span>Contale qué hay en la heladera o qué les pinta y les inventa una receta.</span></button>`:''}
+    <button type="button" class="bigcta ruleta" data-a="wheel"><b>Girar la ruleta</b><span>Cuando ninguno quiere decidir: 8 opciones balanceadas y que decida la suerte.</span>${icon('strawberry')}</button>
+    <button type="button" class="bigcta semana" data-a="plan-week"><b>Armar la semana</b><span>Almuerzos y cenas para 7 días, con la versión veggie cuando hace falta.</span>${icon('pot')}</button>
+    ${sample?`<button type="button" class="bigcta antojo" data-a="focus-ai"><b>Pedile a Claude</b><span>Contale qué hay en la heladera o qué les pinta y les inventa una receta.</span>${icon('avocado')}</button>`:''}
   </div>
   ${pv?`<div class="card" style="margin-bottom:16px"><b>Propuesta para los almuerzos y cenas libres</b><p class="muted small" style="margin:4px 0 0">Después pueden cambiar o borrar lo que quieran desde Semana.</p>
     ${pv.length?`<ul class="plan-prev">${pv.map(p=>{const dd=parse(p.d), alt=fitFor(p.r,'ambos')==='alt';return `<li><span>${WD[dd.getDay()]} ${dd.getDate()} · ${MEAL[p.meal].l}</span><span>${esc(p.r.n)}${alt?` <span class="small" style="color:var(--g-verdura)">· ${esc(vegName())}: ${esc(p.r.alt.n.toLowerCase())}</span>`:''}</span></li>`;}).join('')}</ul>
@@ -1172,7 +1288,7 @@ function viewIdeas(){
   <div class="rgrid">${list.length?list.map(({x,why})=>recipeCard(x,why,fv)).join(''):'<p class="empty">No hay recetas con ese filtro. Probá sacando “Solo favoritas” o con más tiempo.</p>'}</div>
   ${aiBlock()}
   <div class="section-h"><h2>Nuestras recetas</h2><button type="button" class="btn ghost" data-a="new-recipe">+ Agregar receta propia</button></div>
-  ${customRecipes().length?`<div class="rgrid">${customRecipes().map(x=>recipeCard(x,'',fv)).join('')}</div>`:'<p class="empty">Acá quedan las recetas de la familia y las que les proponga Claude. También aparecen en las sugerencias y en la ruleta.</p>'}`;
+  ${customRecipes().length?`<div class="rgrid">${customRecipes().map(x=>recipeCard(x,'',fv)).join('')}</div>`:`<div class="empty-art"><div class="row">${['pot','egg','pumpkin'].map(icon).join('')}</div><p class="empty">Acá quedan las recetas de la familia y las que les proponga Claude. También aparecen en las sugerencias y en la ruleta.</p></div>`}`;
 }
 function dietBadge(x){
   if(!['a','b'].some(isVegP)) return '';
@@ -1182,8 +1298,10 @@ function dietBadge(x){
   return '';
 }
 function recipeCard(x,why,fv){
-  return `<article class="rcard"><button type="button" class="fav" data-a="fav" data-v="${esc(x.id)}" aria-pressed="${!!fv[x.id]}" aria-label="Favorita">♥</button><div class="min tnum">${x.t} min${x.custom?' · receta propia':''} ${dietBadge(x)}</div><h3>${esc(x.n)}</h3>${why?`<div class="why">${esc(why)}</div>`:''}<div class="meta">${tagDots(x.g)}</div>
-    <div class="foot"><button type="button" class="btn" data-a="recipe" data-v="${esc(x.id)}">Ver y agregar</button></div></article>`;
+  return `<article class="rcard"><div class="art" style="--art:${recipeArt(x)}">${recipeIcons(x).map(icon).join('')}<span class="min tnum">${x.t} min${x.custom?' · propia':''}</span></div>
+    <button type="button" class="fav" data-a="fav" data-v="${esc(x.id)}" aria-pressed="${!!fv[x.id]}" aria-label="Favorita">♥</button>
+    <div class="body"><div>${dietBadge(x)}</div><h3>${esc(x.n)}</h3>${versionsHtml(x,true)}${why&&!why.startsWith('Con versión veggie')?`<div class="why">${esc(why)}</div>`:''}<div class="meta">${tagDots(x.g)}</div>
+    <div class="foot"><button type="button" class="btn" data-a="recipe" data-v="${esc(x.id)}">Ver y agregar</button></div></div></article>`;
 }
 function aiBlock(){
   if(!sample) return '';
@@ -1194,6 +1312,7 @@ function aiBlock(){
     ${A.result?`<div class="card"><div class="min tnum">${A.result.t} min</div><h3 style="font-size:18px">${esc(A.result.n)}</h3><p class="small" style="margin:4px 0">${esc(A.result.why||'')}</p><div class="meta">${tagDots(A.result.g)}</div>
       <div class="blk"><div class="label">Ingredientes</div><ul class="small">${A.result.i.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
       <div class="blk"><div class="label">Pasos</div><ol class="small">${A.result.s.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
+      ${A.result.vg?`<div class="blk"><div class="label" style="color:var(--g-verdura)">Versión veggie para ${esc(vegName()||'quien no come carne')}</div><p class="small" style="margin:4px 0 0">${esc(A.result.vg)}</p></div>`:''}
       <div class="row" style="margin-top:8px"><button type="button" class="btn" data-a="ai-save">Guardar en nuestras recetas</button></div></div>`:''}
   </div>`;
 }
@@ -1338,7 +1457,7 @@ function viewShop(){
     <div class="row"><button type="button" class="btn" data-a="shop-from-plan">Sumar lo del plan (7 días)</button>${items.some(i=>i.done)?'<button type="button" class="btn ghost" data-a="shop-clear">Borrar lo comprado</button>':''}</div></div>
     <div class="row"><input class="inp" id="shop-in" style="flex:1 1 220px" placeholder="Agregar algo: yerba, bananas, lentejas…"><button type="button" class="btn ghost" data-a="shop-add">Agregar</button></div>
     ${items.length?`<ul class="shop">${items.map(i=>`<li class="${i.done?'done':''}"><input type="checkbox" id="sh-${i.id}" data-a="shop-toggle" data-v="${i.id}" ${i.done?'checked':''} aria-label="Comprado"><span>${esc(i.text)}</span><button type="button" class="x" data-a="shop-del" data-v="${i.id}" aria-label="Quitar">×</button></li>`).join('')}</ul>`
-      :'<p class="empty">La lista está vacía. Armen la semana en Ideas y después toquen “Sumar lo del plan”.</p>'}
+      :`<div class="empty-art"><div class="row">${['carrot','bread','apple','cheese'].map(icon).join('')}</div><p class="empty">La lista está vacía. Armen la semana en Ideas y después toquen “Sumar lo del plan”.</p></div>`}
     <p class="muted small">La lista es compartida: si uno tacha algo en el súper, al otro le aparece tachado.</p>`;
 }
 
@@ -1354,11 +1473,12 @@ function renderSheet(){
     const defMeal = S.idea.meal || (r.m.includes('dm')?'desayuno':r.m.includes('ac')?'cena':'extras');
     const fv=favs();
     body=`<button type="button" class="fav" style="top:18px;right:18px;font-size:24px" data-a="fav" data-v="${esc(r.id)}" aria-pressed="${!!fv[r.id]}" aria-label="Favorita">♥</button>
+      <div class="sheet-art" style="--art:${recipeArt(r)}">${recipeIcons(r).map(icon).join('')}</div>
       <div class="min tnum">${r.t} minutos · para 2${r.custom?' · receta propia':''}</div><h2>${esc(r.n)}</h2><div class="meta">${tagDots(r.g)}</div>
       ${r.tip?`<p class="small" style="background:var(--accent-soft);padding:8px 10px;border-radius:8px;margin:10px 0 0">${esc(r.tip)}</p>`:''}
       <div class="blk"><div class="label">Ingredientes</div><ul>${(r.i||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
       <div class="blk"><div class="label">Cómo se hace</div><ol>${(r.s||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
-      ${r.alt&&['a','b'].some(isVegP)?`<div class="blk card" style="border-color:var(--g-verdura);background:color-mix(in srgb,var(--g-verdura) 8%,var(--surface))"><div class="label" style="color:var(--g-verdura)">Versión veggie para ${esc(vegName())}</div><b>${esc(r.alt.n)}</b><p class="small" style="margin:4px 0 0">${esc(r.alt.s)}</p></div>`:''}
+      ${versionsHtml(r,false)}
       <div class="blk card" style="background:var(--surface-2)"><div class="label" style="margin-bottom:6px">Agregar al calendario</div>
         <div class="row" style="margin-bottom:8px"><span class="label">Para</span>${whoSeg('add-who',S.idea.forP&&S.idea.forP!=='ambos'?S.idea.forP:'ambos')}</div>
         ${r.alt&&['a','b'].some(isVegP)?`<p class="small muted" style="margin:0 0 8px">Si es para los dos, a ${esc(vegName())} se le anota la versión veggie.</p>`:''}
@@ -1384,6 +1504,8 @@ function renderSheet(){
         <div style="flex:2 1 180px"><label class="label" for="nr-c">Para</label><select class="inp" id="nr-c">${CATS.map(c=>`<option value="${c.id}" ${c.id==='ac'?'selected':''}>${c.l}</option>`).join('')}</select></div></div>
       <div class="blk"><label class="label" for="nr-i">Ingredientes (uno por renglón)</label><textarea class="inp" id="nr-i" rows="5"></textarea></div>
       <div class="blk"><label class="label" for="nr-s">Pasos (uno por renglón)</label><textarea class="inp" id="nr-s" rows="5"></textarea></div>
+      ${['a','b'].some(isVegP)?`<div class="blk"><label class="label" for="nr-vn">Si lleva carne: versión veggie para ${esc(vegName())}</label><input class="inp" id="nr-vn" placeholder="Ej: la misma tarta con huevo y queso en vez de pollo">
+        <textarea class="inp" id="nr-vs" rows="2" style="margin-top:6px" placeholder="Cómo se hace el cambio (opcional)"></textarea></div>`:''}
       <div class="row" style="margin-top:14px"><button type="button" class="btn" data-a="save-recipe">Guardar receta</button><button type="button" class="btn ghost" data-a="close-sheet">Cancelar</button></div>`;
   } else if(sh.type==='entry'){
     const f=S.ef; if(!f){ S.sheet=null; o.innerHTML=''; return; }
@@ -1412,6 +1534,7 @@ function renderSheet(){
 function dateOptionsWide(sel){ let o='', base=addDays(sel,-7); for(let i=0;i<22;i++){ const d=addDays(base,i), dd=parse(d); o+=`<option value="${d}" ${d===sel?'selected':''}>${d===TODAY()?'Hoy':WD[dd.getDay()]+' '+dd.getDate()+' '+MO[dd.getMonth()].slice(0,3)}</option>`; } return o; }
 
 /* Ruleta */
+const shortName = s => s.replace(/\s+(con|al|a la|y|de la)\s.*$/i,'').trim();
 const WHEEL_COLS=['--g-verdura','--g-fruta','--g-legumbre','--g-lacteo','--g-pescado','--warm','--g-integral','--c-violeta'];
 function wheelHtml(W){
   const n=W.items.length, seg=360/n;
@@ -1419,18 +1542,38 @@ function wheelHtml(W){
   W.items.forEach((x,i)=>{
     const a0=i*seg, a1=(i+1)*seg, mid=a0+seg/2;
     g+=`<path d="${arc(150,150,0.01,146,a0,a1)}" fill="var(${WHEEL_COLS[i%WHEEL_COLS.length]})" stroke="var(--surface)" stroke-width="2"/>`;
-    const lbl=x.n.length>24?x.n.slice(0,23)+'…':x.n;
-    g+=`<text transform="rotate(${mid-90} 150 150)" x="276" y="154" text-anchor="end" font-size="11" font-weight="700" fill="#fff" style="paint-order:stroke" stroke="rgba(0,0,0,.25)" stroke-width="2">${esc(lbl)}</text>`;
+    const cut=(s,k)=>s.length>k?s.slice(0,k-1)+'…':s, T=(y,fs,t)=>`<text transform="rotate(${mid-90} 150 150)" x="276" y="${y}" text-anchor="end" font-size="${fs}" font-weight="700" fill="#fff" style="paint-order:stroke" stroke="rgba(0,0,0,.25)" stroke-width="2">${esc(t)}</text>`;
+    if(x.alt&&fitFor(x,'ambos')==='alt') g+=T(148,9.5,cut(shortName(x.n),17))+T(159,8,cut('veggie: '+shortName(x.alt.n).toLowerCase(),20));
+    else g+=T(154,9.5,cut(shortName(x.n),17));
   });
   const res=W.result!=null?W.items[W.result]:null;
   return `<h2>La ruleta de ${esc(CATS.find(c=>c.id===W.cat).l.toLowerCase())}</h2><p class="muted small" style="margin:0">8 opciones que le suman a la semana. Gira y se cumple.</p>
     <div class="wheel-box"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="wheel" id="wheel" style="transform:rotate(${W.rot}deg)">${g}</g><circle cx="150" cy="150" r="18" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/></svg><div class="pointer"></div></div>
-    <div class="result" id="wheel-res" aria-live="polite">${res?`<div class="label">Hoy comen</div><h3>${esc(res.n)}</h3><div class="row" style="justify-content:center;margin-top:10px"><button type="button" class="btn" data-a="recipe" data-v="${esc(res.id)}">Ver receta</button><button type="button" class="btn ghost" data-a="spin">Otra vuelta</button></div>`
+    <div class="result" id="wheel-res" aria-live="polite">${res?`<div class="label">Hoy comen</div><h3>${esc(res.n)}</h3>${versionsHtml(res,false)}${!res.alt&&['a','b'].some(isVegP)?`<div class="small" style="color:var(--g-verdura);font-weight:600">Sirve igual para los dos</div>`:''}
+      <div class="row" style="justify-content:center;margin-top:10px"><button type="button" class="btn" data-a="wheel-add" data-v="${esc(res.id)}">Anotar para hoy</button><button type="button" class="btn ghost" data-a="recipe" data-v="${esc(res.id)}">Ver receta</button><button type="button" class="btn ghost" data-a="spin">Otra vuelta</button></div>`
       :`<button type="button" class="btn fun" data-a="spin" ${W.spinning?'disabled':''}>${W.spinning?'Girando…':'¡Girar!'}</button>`}</div>
     <div class="row" style="justify-content:center;margin-top:12px"><div class="seg">${CATS.map(c=>`<button type="button" data-a="wheel-cat" data-v="${c.id}" aria-pressed="${W.cat===c.id}">${c.l}</button>`).join('')}</div></div>
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn ghost" data-a="close-sheet">Cerrar</button></div>`;
 }
-function newWheel(cat){ S.idea.seed++; return {cat, items:suggest(cat,0,'',S.idea.seed).slice(0,8).map(s=>s.x), rot:0, result:null, spinning:false}; }
+/* Ruleta: si alguien es veggie, al menos la mitad son platos que comen los dos tal cual; el resto trae su versión veggie */
+function newWheel(cat){
+  S.idea.seed++;
+  const all=suggest(cat,0,'',S.idea.seed,false,'ambos').map(s=>s.x), mixed=['a','b'].some(isVegP);
+  let items;
+  if(mixed){ const ok=all.filter(x=>fitFor(x,'ambos')==='ok'), alt=all.filter(x=>fitFor(x,'ambos')==='alt');
+    items=ok.slice(0,Math.max(4,8-Math.min(alt.length,3))).concat(alt.slice(0,3)).slice(0,8);
+    const r=rng(S.idea.seed+7); items.sort(()=>r()-.5); }
+  else items=all.slice(0,8);
+  return {cat, items, rot:0, result:null, spinning:false};
+}
+/* Las dos versiones de un plato, para mostrar juntas */
+function versionsHtml(r, compact){
+  if(!(r.alt && fitFor(r,'ambos')==='alt')) return '';
+  const n=names(), omni=['a','b'].find(p=>!isVegP(p)), veg=['a','b'].find(isVegP);
+  if(compact) return `<div class="small" style="color:var(--g-verdura);font-weight:600">Para ${esc(n[veg])}: ${esc(r.alt.n.toLowerCase())}</div>`;
+  return `<div class="blk versions"><div class="ver" style="--who:var(--p${omni})"><span class="label" style="color:var(--p${omni})">Para ${esc(n[omni])}</span><b>${esc(r.n)}</b></div>
+    <div class="ver" style="--who:var(--p${veg})"><span class="label" style="color:var(--p${veg})">Para ${esc(n[veg])} (veggie)</span><b>${esc(r.alt.n)}</b><span class="small">${esc(r.alt.s)}</span></div></div>`;
+}
 
 /* ================= Confetti ================= */
 function confetti(){
@@ -1461,6 +1604,11 @@ function recipeBodies(r, who, meal){
     return [...omni.map(p=>({...base,who:p,text:r.n,tags:r.g.slice()})), ...veg.map(p=>({...base,who:p,text:r.alt.n,tags:r.alt.g.slice(),alt:true}))];
   }
   return [{...base,who,text:r.n,tags:r.g.slice()}];
+}
+function vegAlt(n, s, g){
+  const t=autoTags(n+' '+s); const gg=new Set((g||[]).filter(x=>x!=='pescado'&&x!=='proteina')); t.forEach(x=>{ if(x!=='pescado') gg.add(x); });
+  if(!gg.has('legumbre')&&!gg.has('proteina')&&!gg.has('lacteo')) gg.add('legumbre');
+  return {n, s:s||'Misma base, sin la carne.', g:[...gg]};
 }
 function addRecipe(date, r, who, meal){
   const add={}; recipeBodies(r,who,meal).forEach((b,i)=>add[uid()]={...b,ts:Date.now()+i});
@@ -1505,6 +1653,9 @@ const ACT = {
   'edit-entry':v=>{ const [d,id]=v.split('|'); openEntrySheet(d,null,id); },
   'ef-who':v=>{ S.ef.who=v; S.ef.whoTouched=true; setPressed('ef-who',v); },
   'add-who':v=>setPressed('add-who',v),
+  'wheel-add':v=>{ const r=recipe(v), W=S.wheel, h=new Date().getHours();
+    const meal = W.cat==='dm' ? (h<12?'desayuno':'merienda') : W.cat==='ac' ? (h<16?'almuerzo':'cena') : 'extras';
+    addRecipe(TODAY(), r, 'ambos', meal); S.sheet=null; renderSheet(); toast(`Anotado en ${MEAL[meal].l.toLowerCase()} de hoy${r.alt&&fitFor(r,'ambos')==='alt'?', con la versión veggie para '+vegName():''}.`); },
   'reto-ideas':v=>{ S.idea.fridge=RETO_IDEAS[v].fridge; S.idea.cat='ac'; S.idea.forP='ambos'; S.idea.favs=false; S.view='ideas'; lsSet('qc.view','ideas'); render(); window.scrollTo(0,0); },
   'i-for':v=>{ S.idea.forP=v; render(); },
   'diet':v=>{ const [k,d]=v.split(':'); patchDoc('config/settings',{diets:{[k]:d}}); document.querySelectorAll('[data-a="diet"]').forEach(b=>{ const [kk,dd]=b.dataset.v.split(':'); b.setAttribute('aria-pressed',String(dietOf(kk)===dd)); }); },
@@ -1588,7 +1739,10 @@ const ACT = {
     const n=document.getElementById('nr-n').value.trim(); if(!n){ toast('Poné un nombre a la receta.'); return; }
     const lines=id=>document.getElementById(id).value.split('\n').map(s=>s.trim()).filter(Boolean);
     const i=lines('nr-i'), s=lines('nr-s'), g=[...autoTags(n+' '+i.join(' '))].filter(t=>t!=='afuera');
-    setDoc('recipes/'+uid(),{n,t:Math.max(1,+document.getElementById('nr-t').value||30),m:[document.getElementById('nr-c').value],i,s,g});
+    const doc={n,t:Math.max(1,+document.getElementById('nr-t').value||30),m:[document.getElementById('nr-c').value],i,s,g};
+    const vn=(document.getElementById('nr-vn')||{}).value, vs=(document.getElementById('nr-vs')||{}).value;
+    if(vn&&vn.trim()) doc.alt=vegAlt(vn.trim(), (vs||'').trim(), g);
+    setDoc('recipes/'+uid(),doc);
     S.sheet=null; renderSheet(); toast('Receta guardada.');
   },
   'del-recipe':v=>{ removeDoc('recipes/'+v); S.sheet=null; renderSheet(); toast('Receta borrada.'); },
@@ -1633,7 +1787,7 @@ En "grupos" usá solo valores de esa lista que correspondan.`;
     try{
       const j=await sample.json(prompt,{modelTier:'default'});
       const vg=String(j.veggie||'').trim();
-      const res={n:String(j.nombre||'Receta'),t:Math.max(1,parseInt(j.minutos)||30),why:String(j.porque||'')+(vg?' Versión veggie: '+vg:''),
+      const res={n:String(j.nombre||'Receta'),t:Math.max(1,parseInt(j.minutos)||30),why:String(j.porque||''),vg,
         i:(Array.isArray(j.ingredientes)?j.ingredientes:[]).map(String).slice(0,25),s:(Array.isArray(j.pasos)?j.pasos:[]).map(String).slice(0,20),
         g:(Array.isArray(j.grupos)?j.grupos:[]).filter(x=>TAG[x]&&!['ultra','dulce','gaseosa','alcohol','afuera'].includes(x))};
       if(!res.i.length||!res.s.length) throw {code:'bad'};
@@ -1645,7 +1799,7 @@ En "grupos" usá solo valores de esa lista que correspondan.`;
     }
     A.busy=false; render();
   },
-  'ai-save':()=>{ const r=S.ai.result; if(!r) return; const id=uid(); setDoc('recipes/'+id,{n:r.n,t:r.t,m:[S.idea.cat],i:r.i,s:r.s,g:r.g,tip:r.why}); S.ai.result=null; toast('Guardada en Nuestras recetas.'); S.sheet={type:'recipe',id}; render(); },
+  'ai-save':()=>{ const r=S.ai.result; if(!r) return; const id=uid(); const doc={n:r.n,t:r.t,m:[S.idea.cat],i:r.i,s:r.s,g:r.g,tip:r.why}; if(r.vg && hasMeat(r.n+' '+r.i.join(' '))) doc.alt=vegAlt(shortName(r.n)+' veggie', r.vg, r.g); setDoc('recipes/'+id,doc); S.ai.result=null; toast('Guardada en Nuestras recetas.'); S.sheet={type:'recipe',id}; render(); },
 };
 document.addEventListener('click',e=>{
   const el=e.target.closest('[data-a]'); if(!el) return;
